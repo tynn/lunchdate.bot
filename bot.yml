@@ -1,0 +1,13 @@
+name: lunchdate.bot
+description: Shuffle your team, have lunch with different people every week.
+config:
+  - name: LOG_LEVEL
+    friendly_name: Severity level to show for logging.
+    info: See https://docs.python.org/2/library/logging.html#levels
+    default: ERROR
+  - name: TZ
+    friendly_name: Timezone for time conversion rules.
+    info: See https://docs.python.org/2/library/time.html#time.tzset
+    default: UTC
+slackscopes:
+  - bot

@@ -1,0 +1,3 @@
+beepboop==0.1.1
+networkx==1.11
+slackclient==1.0.0
