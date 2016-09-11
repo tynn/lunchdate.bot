@@ -37,7 +37,7 @@ class Factory(ActionFactory):
                 action = AwayAction(not away)
                 if not away or time.tm_wday:
                     return action
-                return MergedAction.new(action, NewAction(time.tm_yday // 7))
+                return MergedAction.new(action, NewAction(event))
         elif isinstance(event, PresenceChange):
             away = state.get('away', True)
             if (event.presence == 'away') is not away:

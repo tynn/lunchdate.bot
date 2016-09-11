@@ -27,7 +27,9 @@ from ..api.event import Hello, Notify
 SLACKBOT = 'USLACKBOT'
 
 def current_week(state):
-    return get_week(localtime().tm_yday // 7, state['weeks'])
+    time = localtime()
+    day = 7 + time.tm_yday - time.tm_wday
+    return get_week(day // 7 % 52, state['weeks'])
 
 def get_week(week_number, weeks):
     week_number += 1
@@ -174,7 +176,7 @@ class ReadAction(StorageAction):
 
 class NewAction(Action):
     def handle(self, client, state):
-        return Action.new(get_week(self.event, state['weeks']), state)
+        return Action.new(current_week(state), state)
 
 class WriteAction(StorageAction):
     def handle(self, client, state):
