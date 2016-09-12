@@ -33,9 +33,9 @@ class Factory(ActionFactory):
         if isinstance(event, (Hello, Pong)):
             away = state.get('away', True)
             time = localtime()
-            if away is (8 < time.tm_hour < 18 and time.tm_wday < 5):
+            if away is (8 <= time.tm_hour < 18 and time.tm_wday < 5):
                 action = AwayAction(not away)
-                if not away or time.tm_wday:
+                if not away or time.tm_wday or 12 <= time.tm_hour:
                     return action
                 return MergedAction.new(action, NewAction(event))
         elif isinstance(event, PresenceChange):
