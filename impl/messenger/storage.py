@@ -16,7 +16,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
-from time import localtime
+from datetime import date
 from ..api.action import Action, ActionFactory, MergedAction
 from ..api.event import Hello, Notify
 
@@ -27,12 +27,10 @@ from ..api.event import Hello, Notify
 SLACKBOT = 'USLACKBOT'
 
 def current_week(state):
-    time = localtime()
-    day = 7 + time.tm_yday - time.tm_wday
-    return get_week(day // 7 % 52, state['weeks'])
+    day = date.today().isocalendar()[1]
+    return get_week(day, state['weeks'])
 
 def get_week(week_number, weeks):
-    week_number += 1
     if week_number in weeks:
         return weeks[week_number]
     week = WeekData('#{} !'.format(week_number))
