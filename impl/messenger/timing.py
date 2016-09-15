@@ -23,10 +23,15 @@ from ..api.event import Hello, Pong, PresenceChange
 tzset()
 
 class AwayAction(Action):
+    def __init__(self, event, away):
+        Action.__init__(self, event)
+        self.away = away
+
     def handle(self, client, state):
-        presence = 'away' if self.event else 'auto'
-        client.api_call('users.setPresence', presence=presence)
-        state['away'] = self.event
+        if not self.event or self.event.user == client.id():
+            presence = 'away' if self.event else 'auto'
+            client.api_call('users.setPresence', presence=presence)
+            state['away'] = self.away
 
 class Factory(ActionFactory):
     def create_action(self, event, state):
@@ -34,13 +39,13 @@ class Factory(ActionFactory):
             away = state.get('away', True)
             time = localtime()
             if away is (8 <= time.tm_hour < 18 and time.tm_wday < 5):
-                action = AwayAction(not away)
+                action = AwayAction(None, not away)
                 if not away or time.tm_wday or 12 <= time.tm_hour:
                     return action
                 return MergedAction.new(action, NewAction(event))
         elif isinstance(event, PresenceChange):
             away = state.get('away', True)
             if (event.presence == 'away') is not away:
-                return AwayAction(not away)
+                return AwayAction(event, not away)
 
 Action.register_factory(Factory())
