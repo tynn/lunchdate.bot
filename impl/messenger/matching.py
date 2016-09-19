@@ -39,7 +39,7 @@ class MatchAction(Action):
     def handle(self, client, state):
         week = self.event
         users = client.api_call('users.list')['members']
-        users = filter(lambda m: not m['is_bot'], users)
+        users = filter(lambda m: not m.get('is_bot', False), users)
         users = set(map(lambda m: m['id'], users)) - {SLACKBOT}
         users -= {m for m in week.ignore if week.ignore[m] >= 0}
         users -= set(sum(week.pairs, ()))
