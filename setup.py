@@ -34,7 +34,7 @@ setup(
     long_description=__doc__,
     author          ="Christian Schmitz",
     author_email    ="tynn.dev@gmail.com",
-    url             ="https://github.com/tynn/pyXsel",
+    url             ="https://github.com/tynn/lunchdate.bot",
     license         ='LGPLv3+',
     packages        =[
         'launchdate-bot',
